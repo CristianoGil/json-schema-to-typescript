@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/diagram.json",
+  "title": "Diagram",
+  "description": "Defines a schematic/drawing of a structure",
+  "type": "object",
+  "oneOf": [
+    { "$ref" : "#/definitions/DiagramValue"},
+    { "$ref" : "#/definitions/DiagramRef"}
+  ],
+  "definitions": {
+    "DiagramValue" : {
+      "type" : "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+              "description": "Type of diagram",
+              "type": "string",
+              "enum":[
+                    "blockdiag",
+                    "bpmn",
+                    "bytefield",
+                    "seqdiag",
+                    "actdiag",
+                    "nwdiag",
+                    "packetdiag",
+                    "rackdiag",
+                    "c4plantuml",
+                    "ditaa",
+                    "erd",
+                    "excalidraw",
+                    "graphviz",
+                    "mermaid",
+                    "nomnoml",
+                    "pikchr",
+                    "plantuml",
+                    "svgbob",
+                    "umlet",
+                    "vega",
+                    "vegalite",
+                    "wavedrom"
+                ]
+        },
+        "description": {
+              "description": "Explanation of the diagram purpose",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 128
+        },
+        "src": {
+              "description": "Path or URL that contains the diagram file",
+              "type": "string",
+              "minLength": 3
+        }
+      },
+      "required": [
+        "description",
+        "src"
+      ]
+    },
+    "DiagramRef" : {
+        "type" : "object",
+        "description": "A reference of a diagram",
+        "required" : ["href"],
+        "additionalProperties": false,
+        "properties" : {
+            "href" : {
+              "type" : "string",
+              "description" : "Hyperlink to a diagram document file",
+              "minLength" : 1,
+              "maxLength" : 1024
+            }
+        }
+    }
+  }
+}

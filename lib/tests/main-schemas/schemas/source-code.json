@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/source-code.json",
+  "title": "Source-Code",
+  "description": "Describes where the source for a given release is located",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/source-code"
+  },
+  "minItems": 1,
+  "definitions": {
+    "source-code": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "Name of the source code",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 128
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description of the source-code"
+        },
+        "repository": {
+          "type": "object",
+          "description": "Source code reposiotry definition",
+          "properties": {
+            "git_tag": {
+              "description": "Git tag",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 24
+            },
+            "commit_id": {
+              "description": "Git commit id",
+              "type": "string",
+              "pattern":"^[0-9a-f]{40}$"
+            },
+            "url": {
+              "description": "URL for the Git repository",
+              "type": "string"
+            }
+          },
+          "required": [
+            "commit_id",
+            "url"
+          ],
+          "additionalProperties": false
+        },
+        "static_analysis": {
+          "description": "Static Analysis information",
+          "type": "object",
+          "additionalProperties": false,
+          "required" : ["identifier"],
+          "properties": {
+            "identifier": {
+              "description": "Identifier used to fetch the static analysis report",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 128
+            },
+            "report" : {
+              "type": "object",
+              "description" : "Code quality analysis report",
+              "properties" : {
+                "bugs" : {
+                    "type" : "integer",
+                    "description" : "Number of bug issues",
+                    "minimum": 0
+                },
+                "vulnerabilities" : {
+                    "type" : "integer",
+                    "description" : "Number of vulnerability issues",
+                    "minimum": 0
+                },
+                "security_hotspots" : {
+                    "type" : "integer",
+                    "description" : "Number of Security Hotspots",
+                    "minimum": 0
+                },
+                "unit_tests" : {
+                    "type" : "integer",
+                    "description" : "Number of Security Hotspots",
+                    "minimum": 0
+                },
+                "code_coverage" : {
+                    "type" : "number",
+                    "description" : "How much of the source-code has been covered by the unit tests?",
+                    "minimum": 0.0
+                },
+                "code_smells" : {
+                  "type" : "integer",
+                  "description" : "Total count of Code Smell issues",
+                  "minimum": 0
+                },
+                "security_review_rating" : {
+                  "type" : "string",
+                  "description" : "Rating based on the percentage of Reviewed (Fixed or Safe) Security Hotspots",
+                  "enum" : ["A","B","C","D", "E"]
+                },
+                "maintainability_rating" : {
+                    "type" : "string",
+                    "description" : "Rating given to source-code based on Technical Debt Ratio",
+                    "enum" : ["A","B","C","D", "E"]
+                },
+                "reliability_rating" : {
+                    "type" : "string",
+                    "description" : "Rating given to the source-code based on count of detected bugs",
+                    "enum" : ["A","B","C","D", "E"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "repository"
+      ]
+    }
+  }
+}

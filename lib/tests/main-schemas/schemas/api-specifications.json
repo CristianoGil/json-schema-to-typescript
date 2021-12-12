@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/api-specifications.json",
+  "title": "API specifications",
+  "description": "Application API specifications",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/specification"
+  },
+  "minItems": 1,
+  "definitions": {
+    "specification": {
+      "type": "object",
+      "description": "A single API specification",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the API",
+          "minLength": 3,
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief overview of the specification",
+          "minLength": 3,
+          "maxLength": 1024
+        },
+        "uri": {
+          "type": "string",
+          "description": "Local or remote path for the API specification"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "uri"
+      ]
+    }
+  }
+}

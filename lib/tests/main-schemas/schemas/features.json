@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/features.json",
+  "title": "Features",
+  "description": "Solution features",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/feature"
+  },
+  "minItems": 1,
+  "definitions": {
+    "feature": {
+      "type": "object",
+      "description": "Solution single feature",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Feature name",
+          "minLength": 3,
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief overview of the feature",
+          "minLength": 3,
+          "maxLength": 1024
+        },
+        "since": {
+          "type": "string",
+          "description": "The application version when the feature was introduced",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        },
+        "external_ref": {
+          "type": "object",
+          "description": "A pointer to some media content with more details about the feature",
+          "additionalProperties": false,
+          "required": ["label", "url"],
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Label to identify a story",
+              "minLength": 3,
+              "maxLength": 48
+            },
+            "url": {
+              "type": "string",
+              "description": "A hyperlink to some media content with more details about the feature"
+            }
+          }
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "since"
+      ]
+    }
+  }
+}

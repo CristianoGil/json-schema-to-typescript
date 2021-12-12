@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/data-models.json",
+  "title": "Data Models",
+  "description": "Describes data structure and its relationships",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "diagram",
+    "entities"
+  ],
+  "properties": {
+    "diagram": {
+      "description": "An entity represents a specific object",
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "type",
+        "description",
+        "src"
+      ],
+      "properties": {
+        "type": {
+          "description": "Type of diagram",
+          "type": "string",
+          "enum":["plantuml", "erd"]
+        },
+        "description": {
+          "description": "Explanation of the diagram purpose",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 1024
+        },
+        "src": {
+              "description": "URI that contains the diagram file",
+              "type": "string",
+              "minLength": 3
+        }
+      }
+    },
+    "entities": {
+      "description": "An entity models a knowledge domain concept",
+      "additionalProperties": false,
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z]([a-zA-Z/-]*[a-zA-Z])*$": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "A representative name for the entity",
+              "minLength": 3,
+              "maxLength": 24
+            },
+            "description": {
+              "description": "Describe the entity",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 1024
+            },
+            "identifier": {
+              "description": "A set of fields that are used to identify an entity",
+              "type": "array",
+              "items": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z]([a-zA-Z/-]*[a-zA-Z])*$"
+              },
+              "minItems": 1
+            },
+            "attributes": {
+              "description": "Represents properties of the entity",
+              "additionalProperties": false,
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z]([a-zA-Z/-]*[a-zA-Z])*$": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "number",
+                        "string",
+                        "boolean",
+                        "integer"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 1024
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

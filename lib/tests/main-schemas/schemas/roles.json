@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/roles.json",
+  "title": "Roles",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/role"
+  },
+  "minItems": 1,
+  "definitions": {
+    "role": {
+      "description": "A role for resource access and permission control",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the role",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the role",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "description": {
+          "description": "A brief description that tells what the role is about",
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 1024
+        },
+        "features": {
+          "description": "A collection of references' that belongs to Features that the role has access to",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string",
+                "description": "The reference of the feature"
+              },
+              "restrictions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "ref"
+            ]
+          },
+          "minItems": 1
+        },
+        "inherit_from": {
+          "type": "string",
+          "description": "The identifier of the role that the role extends from"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "features"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

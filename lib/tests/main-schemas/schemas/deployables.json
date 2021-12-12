@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/deployables.json",
+  "title": "Deployables",
+  "description": "Reference for the deployable artifacts of the system",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/deployable"
+  },
+  "minItems": 1,
+  "definitions": {
+    "deployable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+              "description": "Name of the deployable",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 128
+        },
+        "description": {
+              "description": "Explanation of the deployable purpose",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 128
+        },
+        "type": {
+              "description": "Type of the deployable",
+              "type": "string",
+              "enum":["helm", "zip", "docker-image", "jar", "binary"]
+        },
+        "repository": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL of the deployable repository"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false
+        },
+        "reference": {
+              "description": "Used to differentiate deployable versions",
+              "type": "string"
+
+        },
+        "composition_analysis" : {
+            "type" : "object",
+            "description" : "Information regarding the composition of the deployable",
+            "additionalProperties": false,
+            "required" : ["identifier"],
+            "properties" : {
+                "identifier" : {
+                    "type" : "string",
+                    "description" : "Identifier used to perform the composition analysis",
+                    "minLength": 3,
+                    "maxLength": 128
+                },
+                "report" : {
+                  "type" : "object",
+                  "description" : "The composition analysis report",
+                  "additionalProperties": false,
+                  "required" : [ "src"],
+                  "properties" : {
+                      "src" : {
+                          "type" : "string",
+                          "description" : "URI to the composition report file",
+                          "minLength" : 1,
+                          "maxLength": 1024
+                      }
+                  }
+                }
+            }
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "repository",
+        "reference"
+      ]
+    }
+  }
+}

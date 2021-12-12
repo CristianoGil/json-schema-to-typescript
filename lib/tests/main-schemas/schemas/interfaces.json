@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/interfaces.json",
+  "title": "Interfaces",
+  "description": "Represents a collection of interfaces attached to an Application",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/interface"
+  },
+  "definitions": {
+    "interface": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the Interface"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the Interface"
+        },
+        "type": {
+          "type": "string",
+          "description": "Describes the network traffic direction this interface handles",
+          "enum": [
+            "inbound",
+            "outbound"
+          ]
+        },
+        "technology": {
+          "type": "string",
+          "description": "The type of the Interface which can be used to validate the configuration informed",
+          "enum": [
+            "http",
+            "other",
+            "rest-api",
+            "kafka_queue",
+            "kafka_topic",
+            "ibmmq_queue",
+            "ibmmq_topic",
+            "aws_sns_topic",
+            "aws_sqs_queue",
+            "rabbitmq_queue",
+            "rabbitmq_topic"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "technology"
+      ]
+    }
+  }
+}

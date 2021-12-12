@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/changes.json",
+  "title": "Changes",
+  "description": "Reference for the changes that occur with the system",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "summary": {
+      "description": "A detailed description for the performed changes",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 512
+    },
+    "external_ref": {
+      "description": "A link to an external resource which gives a context of every change made",
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "url"
+      ],
+      "properties": {
+        "name": {
+            "description": "A descriptive name for the global external reference",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 128
+        },
+        "url": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "The category of an individual change according to the semantic versioning",
+            "type": "string",
+            "enum": [
+              "Major",
+              "Minor",
+              "Patch"
+            ]
+          },
+          "external_ref": {
+            "description": "A link to an external resource which gives a context for the change",
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "name",
+              "url"
+            ],
+            "properties": {
+              "name": {
+                "description": "A descriptive name for an external reference of each change",
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 128
+              },
+              "url": {
+                "type": "string",
+                "minLength": 3
+              }
+            }
+          },
+          "description": {
+            "description": "A description of an individual change",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 1024
+          },
+          "title": {
+            "description": "A title of an individual change",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 1024
+          }
+        },
+        "required": [
+          "type",
+          "description",
+          "title"
+        ]
+      }
+    }
+  }
+}

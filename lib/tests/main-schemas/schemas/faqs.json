@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/faqs.json",
+  "title": "FAQs",
+  "description": "Frequent Asked Questions",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/question"
+  },
+  "definitions": {
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "The question"
+        },
+        "response": {
+          "description": "An answer represented by a simple text or an asciidoc file",
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "The plain text answer of the question"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "src": {
+                  "type": "string",
+                  "description": "The URI pointing to the asciidoc file containing the answer"
+                }
+              },
+              "required": [
+                "src"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "query",
+        "response"
+      ]
+    }
+  }
+}

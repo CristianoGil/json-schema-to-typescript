@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/monitoring-metrics.json",
+  "title": "Monitoring metrics",
+  "description": "Application built-in monitoring metrics",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/monitoring-metric"
+  },
+  "minItems": 1,
+  "definitions": {
+    "monitoring-metric": {
+      "type": "object",
+      "description": "Application single monitoring metric",
+      "additionalProperties": false,
+      "required": ["name", "description", "type"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Monitoring metric given name",
+          "minLength": 3,
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief overview of the metric",
+          "minLength": 3,
+          "maxLength": 1024
+        },
+        "path": {
+          "description": "Monitoring metric type path",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "type": {
+          "description": "Prometheus metrics type",
+          "enum": [
+            "Counter",
+            "Gauge",
+            "Histogram",
+            "Summary"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/consumed-apis.json",
+    "title": "Consumed API",
+    "description": "Reference for the apis consumed by the system",
+    "type": "array",
+    "items": {
+        "$ref": "#/definitions/consumed_api"
+    },
+    "minItems": 1,
+    "definitions": {
+        "consumed_api": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name that identifies the consumed API",
+                    "minLength": 3,
+                    "maxLength": 128
+                },
+                "version": {
+                    "type": "string",
+                    "description": "The version of the API being consumed"
+                },
+                "permission_type": {
+                    "type": "string",
+                    "description": "Categorize the type of permissions field",
+                    "enum":["oauth_scopes","user_roles", "paths"]
+                },
+                "permissions": {
+                    "type": "array",
+                    "description": "Describes the permissions needed to consume the API",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "Describe the consumed resources and its purpose.",
+                    "minLength": 10,
+                    "maxLength": 2048
+                },
+                "documentation_url": {
+                    "type": "string",
+                    "description": "The link to the official API documentation"
+                }
+            },
+            "required": [
+                "name",
+                "version",
+                "usage"
+            ]
+        }
+    }
+}

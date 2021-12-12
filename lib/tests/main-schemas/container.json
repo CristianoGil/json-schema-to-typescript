@@ -1,0 +1,248 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/container.json",
+    "title": "Container",
+    "description": "A container is something that needs to be running in order for the overall software system to work",
+    "type": "object",
+    "definitions": {
+        "Component": {
+            "type": "object",
+            "description": "A component encapsulated in a container",
+            "required": [
+                "name",
+                "description"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "name of the component",
+                    "minLength": 1,
+                    "maxLength": 128
+                },
+                "description": {
+                    "type": "string",
+                    "description": "description of the component",
+                    "minLength": 1,
+                    "maxLength": 1024
+                },
+                "diagram": {
+                    "$ref": "schemas/diagram.json#"
+                }
+            }
+        }
+    },
+    "required": [
+        "name",
+        "description",
+        "deployables"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Name of the container",
+            "minLength": 3,
+            "maxLength": 256
+        },
+        "description": {
+            "type": "string",
+            "description": "Brief overview of the container",
+            "minLength": 3,
+            "maxLength": 1024
+        },
+        "components" : {
+            "type": "object",
+            "description" : "Defines components that are part of the container",
+            "required" : ["diagram"],
+            "additionalProperties": false,
+            "properties" : {
+                "diagram" : {
+                    "$ref" : "schemas/diagram.json#"
+                },
+                "items" : {
+                    "type" : "array",
+                    "description" : "Definition of each component that composes the container",
+                    "items" : {
+                        "$ref" : "#/definitions/Component"
+                    }
+                }
+            }
+        
+        },
+        "interfaces": {
+            "type": "object",
+            "description": "Represents a collection of interfaces attached to a container",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "value": {
+                            "type": "array",
+                            "$ref": "schemas/interfaces.json#"
+                        }
+                    }
+                }
+            ]
+        },
+        "data_model": {
+            "type": "object",
+            "description": "Describes the container data structure",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "value": {
+                            "type": "object",
+                            "$ref": "schemas/data-models.json#"
+                        }
+                    }
+                }
+            ]
+        },
+        "events": {
+            "type": "object",
+            "description": "Reference for the events that occur with the system",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "value": {
+                            "type": "array",
+                            "$ref": "schemas/events.json#"
+                        }
+                    }
+                }
+            ]
+        },
+        "api_specifications": {
+            "type": "object",
+            "description": "Application API specifications",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "value": {
+                            "type": "array",
+                            "$ref": "schemas/api-specifications.json#"
+                        }
+                    }
+                }
+            ]
+        },
+        "monitoring_metrics": {
+            "type": "object",
+            "description": "Application built-in monitoring metrics",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "value": {
+                            "type": "array",
+                            "$ref": "schemas/monitoring-metrics.json#"
+                        }
+                    }
+                }
+            ]
+        },
+        "consumed_apis": {
+            "type": "object",
+            "description": "Reference for the apis consumed by the system",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "value": {
+                            "type": "array",
+                            "$ref": "schemas/consumed-apis.json#"
+                        }
+                    }
+                }
+            ]
+        },
+        "deployables": {
+            "type": "object",
+            "description": "Reference for the deployable artifacts of the system",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "value": {
+                            "type": "array",
+                            "$ref": "schemas/deployables.json#"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

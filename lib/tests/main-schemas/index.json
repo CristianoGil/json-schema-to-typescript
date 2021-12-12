@@ -1,0 +1,59 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/index.json",
+    "title": "sysdoc",
+    "description": "Schema of the Sysdoc package index file",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "spec" : {
+            "type" : "string",
+            "description" : "The version of the Sysdoc specification"
+        },
+        "system": {
+            "type": "object",
+            "description": "Represents the system being documented",
+            "$ref" : "system.json"
+        },
+        "authors": {
+            "type": "array",
+            "description": "Authors of the sysdoc package",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the author",
+                        "minLength": 3,
+                        "maxLength": 256
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "The email of the author",
+                        "minLength": 3,
+                        "maxLength": 256
+                    }
+                },
+                "required": [
+                    "name",
+                    "email"
+                ]
+            }
+        },
+        "tags": {
+            "type": "array",
+            "description": "Tags associated to the package",
+            "items": {
+                "type": "string",
+                "description": "Tag associated to the package"
+            }
+        }
+    },
+    "required": [
+        "spec",
+        "system",
+        "authors",
+        "tags"
+    ]
+}

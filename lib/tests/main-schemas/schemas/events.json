@@ -1,0 +1,108 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/events.json",
+    "title": "Events",
+    "description": "Reference for the events that occur with the system",
+    "type": "array",
+    "items": {
+        "$ref": "#/definitions/event"
+    },
+    "minItems": 1,
+    "definitions": {
+        "event": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name that identifies the event",
+                    "minLength": 3,
+                    "maxLength": 128
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Describes the category of the event. The event might be inbound (it's consumed by) or outbound (it's produced by)",
+                    "enum": [
+                        "inbound",
+                        "outbound"
+                    ]
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Describes the event, the purpose and when the event is triggered or consumed",
+                    "minLength": 20,
+                    "maxLength": 2048
+                },
+                "interface": {
+                    "type": "object",
+                    "description": "Describes the layer to which the event is consumed or broadcast to.",
+                    "additionalProperties": false,
+                    "properties":{
+                        "id":{
+                            "type": "string",
+                            "description": "The id of the interface"
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ]
+                },
+                "examples": {
+                    "type": "array",
+                    "description": "A list of the event examples",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties":false,
+                        "properties":{
+                            "name":{
+                                "type": "string",
+                                "description": "The example given name",
+                                "minLength": 1,
+                                "maxLength": 64
+                            },
+                            "uri": {
+                                "type": "string",
+                                "description": "An URI to an example"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "uri"
+                        ]
+                    }
+                },
+                "schema": {
+                    "type": "object",
+                    "description": "The schema that define the event data structure",
+                    "additionalProperties": false,
+                    "properties":{
+                        "type":{
+                            "type": "string",
+                            "description": "Specify the schema type",
+                            "enum":[
+                                "json",
+                                "xml",
+                                "openAPI"
+                            ]
+                        },
+                        "uri":{
+                            "type": "string",
+                            "description": "An URI to an external or local schema file"
+                        }
+                    },
+                      "required": [
+                          "type",
+                          "uri"
+                      ]                                    
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "description",
+                "interface",
+                "schema"
+            ]
+        }
+    }
+}

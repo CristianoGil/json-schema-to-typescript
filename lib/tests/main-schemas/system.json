@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dev.vm.co.mz/sysdoc/v1.0.0/system.json",
+  "title": "System",
+  "description": "Defines a software system",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "ID of the system",
+      "minLength": 3,
+      "maxLength": 256
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the system",
+      "minLength": 3,
+      "maxLength": 256
+    },
+    "summary": {
+      "type": "string",
+      "description": "Brief overview of the system",
+      "minLength": 3,
+      "maxLength": 1024
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the system"
+    },
+    "maintainers" : {
+        "type": "array",
+        "description" : "The maintainers of the system",
+        "items" : {
+          "type": "object",
+          "description": "Represents a maintainer of the system",
+          "additionalProperties": false,
+          "required" : ["name", "email"],
+          "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "The given name of the maintainer",
+                "minLength": 1,
+                "maxLength" : 128
+              },
+              "email" : {
+                "type" : "string",
+                "description" : "The email address of the maintainer",
+                "minLength" : 1,
+                "maxLength" : 512
+              }
+          }
+        }
+    },
+    "details": {
+      "description": "Describes the software system",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context",
+        "containers",
+        "features",
+        "source_code"
+      ],
+      "properties": {
+        "changes": {
+          "type": "object",
+          "description": "Reference for the changes that occur with the system",
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["href"],
+              "properties": {
+                "href": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["value"],
+              "properties": {
+                "value": {
+                  "$ref": "schemas/changes.json#"
+                }
+              }
+            }
+          ]
+        },
+        "features": {
+          "type": "object",
+          "description": "Solution features",
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["href"],
+              "properties": {
+                "href": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required" : ["value"],
+              "properties": {
+                "value": {
+                  "type": "array",
+                  "$ref": "schemas/features.json#"
+                }
+              }
+            }
+          ]
+        },
+        "concepts": {
+          "type": "object",
+          "description": "The definition of core application aspects",
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required" : ["href"],
+              "properties": {
+                "href": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required" : ["value"],
+              "properties": {
+                "value": {
+                  "type": "array",
+                  "$ref": "schemas/concepts.json#"
+                }
+              }
+            }
+          ]
+        },
+        "context": {
+          "type": "object",
+          "description": "Presents the system context",
+          "required": [
+            "diagram"
+          ],
+          "properties": {
+            "diagram": {
+              "$ref": "schemas/diagram.json#"
+            },
+            "foreign_systems": {
+              "type": "array",
+              "description": "Other systems that are relevant to the context of this software system",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "description"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the system",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Purpose of the foreign system in the context of this system",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  },
+                  "sysdoc_ref": {
+                    "$ref": "#/definitions/SysdocRef"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "containers": {
+          "type" : "object",
+          "required": [
+            "diagram",
+            "items"
+          ],
+          "properties": {
+            "diagram": {
+              "$ref": "schemas/diagram.json#"
+            },
+            "items": {
+              "type": "array",
+              "description": "Containers that compose the software system",
+              "items": {
+                "type": "object",
+                "oneOf": [
+                  {
+                    "$ref": "container.json#"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "name", "description","sysdoc_ref"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the container",
+                        "minLength": 3,
+                        "maxLength": 256
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Brief overview of the container",
+                        "minLength": 3,
+                        "maxLength": 1024
+                    },
+                      "sysdoc_ref": {
+                        "$ref": "#/definitions/SysdocRef"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "faqs": {
+          "type": "object",
+          "description": "Frequent Asked Questions",
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "type": "array",
+                  "$ref": "schemas/faqs.json#"
+                }
+              }
+            }
+          ]
+        },
+        "source_code": {
+          "type": "object",
+          "description": "Defines the system source-code",
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required" : ["href"],
+              "properties": {
+                "href": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required" : ["value"],
+              "properties": {
+                "value": {
+                  "$ref": "schemas/source-code.json#"
+                }
+              }
+            }
+          ]
+        },
+        "deployment_architecture": {
+          "type": "object",
+          "description": "System deployment architecture",
+          "required": [
+            "containers_hosting"
+          ],
+          "properties": {
+            "containers_hosting": {
+              "type" : "object",
+              "description": "Presents how the system containers will be hosted",
+              "required": [
+                "diagram"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "diagram": {
+                  "$ref": "schemas/diagram.json#"
+                }
+              }
+            },
+            "networking_topology": {
+              "description": "Presents the system networking topology",
+              "type" : "object",
+              "additionalProperties": false,
+              "required": [
+                "diagram"
+              ],
+              "properties": {
+                "diagram": {
+                  "$ref": "schemas/diagram.json#"
+                }
+              }
+            }
+          }
+        },
+        "roles": {
+          "type": "object",
+          "description": "Roles",
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "type": "array",
+                  "$ref": "schemas/roles.json#"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "additional_info": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the additional information"
+          },
+          "href": {
+            "type": "string",
+            "description": "Hyperlink to the additional information"
+          }
+        },
+        "required": [
+          "title",
+          "href"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "summary",
+    "version",
+    "details"
+  ],
+  "definitions": {
+    "SysdocRef": {
+      "type": "object",
+      "required": [
+        "id",
+        "version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the system being referenced"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of the system to be referenced"
+        }
+      }
+    }
+  }
+}
