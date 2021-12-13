@@ -86,35 +86,24 @@ const _handlePointer$RefInternalURI = (uri: string): string | undefined => {
 
 }
 
-const _resolvePointer$Defs = (uriDefs: string, jsonSchema: object): string | undefined => {
-    console.log("uriDefs: ", uriDefs)
-
-    return ""
-}
-
 
 const _resolveURI = async (uri: string, mainSchemaLocate: string, jsonSchema: object): Promise<any> => {
 
     let handleURI: string | undefined;
 
-    // Handle $ref: External schema
-    handleURI = _handlePointer$RefURI(uri.trim())
+    handleURI = _handlePointer$RefURI(uri.trim()) // Handle $ref: External schema
     if (handleURI) {
         let fileToRef: string = `${dirname(mainSchemaLocate)}/${handleURI}`
         return await _getExternalJsonObject(fileToRef)
     }
 
-    // Handle $ref: Internal schema
-    handleURI = _handlePointer$RefInternalURI(uri.trim())
+    handleURI = _handlePointer$RefInternalURI(uri.trim()) // Handle $ref: Internal schema
     if (handleURI) {
         // @ts-ignore
         return jsonSchema["definitions"][`${handleURI}`]
     }
-    // Handle $defs: Internal schema
-    // handleURI = _resolvePointer$Defs(uri.trim(), jsonSchema)
-    // if (handleURI) {
-    //
-    // }
+
+    // TODO: Implement: Handle $Defs
 }
 
 const _getExternalJsonObject = async (uri: string): Promise<any> => {
